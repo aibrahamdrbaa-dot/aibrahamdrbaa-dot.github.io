@@ -169,7 +169,7 @@
   };
 
   addEventListener("load", ready, { once: true });
-  setTimeout(ready, 900);
+  setTimeout(ready, 650);
 
   const productCatalog = [
     {id:"font-maniac-pack",name:"Font Maniac Pack",price:"$9",category:"TYPE",theme:"black",summary:"مجموعة فونتات إبداعية.",display:["TYPE","PACK"]},

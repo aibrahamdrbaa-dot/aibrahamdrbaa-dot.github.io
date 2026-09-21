@@ -84,6 +84,7 @@
       img.src = image.currentSrc || image.src;
       img.alt = image.alt || name;
       img.loading = "eager";
+      img.fetchPriority = "high";
       img.decoding = "async";
       img.referrerPolicy = "no-referrer";
       preview.appendChild(img);
@@ -120,7 +121,7 @@
       const chip = document.createElement("a");
       chip.className = "collectionChip";
       chip.href = collection.id === "all" ? "shop.html" : "shop.html?collection=" + encodeURIComponent(collection.id);
-      chip.setAttribute("aria-pressed", String(collection.id === active));
+      if (collection.id === active) chip.setAttribute("aria-current", "page");
       chip.textContent = collection.label;
       bar.appendChild(chip);
     });
@@ -156,7 +157,6 @@
     cards.forEach((card) => {
       const title = card.querySelector("h3")?.textContent.trim() || "";
       const memberships = productCollections[title] || [];
-      const collection = collections.find((item) => item.id === active);
       const match = active === "all" || memberships.includes(active);
       card.classList.toggle("is-filtered-out", !match);
       if (match) visible += 1;
