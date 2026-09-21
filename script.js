@@ -228,6 +228,10 @@
     }
 
     document.title = product.name + " — MANIAC";
+    const canonical = document.querySelector('link[rel="canonical"]');
+    if (canonical) canonical.setAttribute("href", new URL("product.html?item=" + encodeURIComponent(product.id), location.href).href);
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (ogUrl) ogUrl.setAttribute("content", new URL("product.html?item=" + encodeURIComponent(product.id), location.href).href);
     const description = document.querySelector('meta[name="description"]');
     if (description) description.setAttribute("content", product.name + " — " + product.summary + " من MANIAC. الطلب عبر Telegram.");
     const ogTitle = document.querySelector('meta[property="og:title"]');
