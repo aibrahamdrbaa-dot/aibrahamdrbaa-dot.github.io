@@ -159,3 +159,18 @@ body.fx-pointer::after{content:"";position:fixed;inset:0;z-index:0;pointer-event
 @media(max-width:900px){.homeFeatured{grid-template-columns:1fr}.homeCollectionGrid{grid-template-columns:repeat(3,1fr)}}
 @media(max-width:620px){.homeFeatured{border-radius:19px}.homeFeaturedVisual{min-height:220px;padding:18px}.homeFeaturedStamp{font-size:58px}.homeFeaturedCopy{padding:21px}.homeFeaturedCopy h2{font-size:39px}.homeFeaturedBottom{align-items:flex-start;flex-direction:column}.homeCollectionGrid{grid-template-columns:1fr 1fr}.homeCollectionGrid a{min-height:104px;padding:11px}.homeCollectionGrid strong{font-size:13px}}
 @media(prefers-reduced-motion:reduce){.homeCollectionGrid a{transition:none}}
+
+/* 2026-09-21 purchase-trust layer */
+.productTrustRow{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
+.faqGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.faqItem{background:#fff;border:1px solid var(--line);border-radius:18px;padding:0 18px;box-shadow:0 2px 0 rgba(11,11,11,.015)}
+.faqItem summary{cursor:pointer;list-style:none;padding:17px 0;font-size:13px;font-weight:900}
+.faqItem summary::-webkit-details-marker{display:none}
+.faqItem summary:after{content:"+";float:left;font-size:18px;line-height:1;transition:transform .18s ease}
+.faqItem[open] summary:after{transform:rotate(45deg)}
+.faqItem p{font-size:11px;line-height:1.9;color:var(--muted);margin:0;padding:0 0 17px}
+.faqTrust{display:flex;justify-content:space-between;align-items:center;gap:18px;background:var(--lime);color:var(--ink);border-radius:22px;padding:25px}
+.faqTrust h2{font-size:28px;margin:7px 0 4px}.faqTrust p{font-size:11px;margin:0}
+@media(max-width:760px){.faqGrid{grid-template-columns:1fr}.faqTrust{display:block;border-radius:19px}.faqTrust .bannerBtn{display:inline-block;margin-top:15px}}
+@media(max-width:620px){.faqItem{border-radius:15px;padding:0 14px}.faqItem summary{font-size:12px;padding:14px 0}.faqItem p{font-size:10px}.faqTrust{padding:21px}.faqTrust h2{font-size:24px}}
+@media(prefers-reduced-motion:reduce){.faqItem summary:after{transition:none}}
