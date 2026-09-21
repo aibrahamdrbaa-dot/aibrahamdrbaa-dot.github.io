@@ -92,8 +92,8 @@ secret_patterns = [
 ]
 
 for pattern, label in secret_patterns:
-    for path in ROOT.glob("*"):
-        if path.is_file() and path.name not in {"favicon.ico"}:
+    for path in ROOT.rglob("*"):
+        if path.is_file() and path.name not in {"favicon.ico"} and ".git" not in path.parts:
             try:
                 text = path.read_text(encoding="utf-8")
             except (UnicodeDecodeError, OSError):

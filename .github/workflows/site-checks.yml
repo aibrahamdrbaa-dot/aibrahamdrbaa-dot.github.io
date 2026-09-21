@@ -22,3 +22,5 @@ jobs:
           persist-credentials: false
       - name: Validate static site
         run: python3 tools/site_checks.py
+      - name: Validate JavaScript syntax
+        run: node --check script.js
