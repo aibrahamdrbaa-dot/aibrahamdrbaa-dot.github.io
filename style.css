@@ -78,3 +78,6 @@ a:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
   .tickerTrack{animation:none!important}
   .hero>div:first-child,.heroSide:before{animation:none!important}
 }
+
+/* 2026-09-21 overflow guard */
+html,body{overflow-x:clip}
