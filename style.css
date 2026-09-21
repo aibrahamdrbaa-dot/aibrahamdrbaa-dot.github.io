@@ -132,3 +132,34 @@ body.fx-pointer::after{content:"";position:fixed;inset:0;z-index:0;pointer-event
 
 /* Security/CSP cleanup */
 .inlineBannerBtn{display:inline-block;margin-top:14px}
+
+/* 2026-09-21 collections + featured drop */
+.featuredDrop{display:grid;grid-template-columns:.82fr 1.18fr;gap:0;border:1px solid var(--line);border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 20px 50px rgba(11,11,11,.08)}
+.dropVisual{min-height:285px;background:#0b0b0b;color:#fff;padding:22px;position:relative;overflow:hidden;display:flex;flex-direction:column;justify-content:space-between}
+.dropVisual:before{content:"";position:absolute;width:240px;height:240px;right:-75px;top:-95px;border-radius:50%;background:var(--pink);filter:blur(42px);opacity:.34}
+.dropMeta{position:relative;z-index:2;display:flex;justify-content:space-between;gap:12px;font-size:8px;color:#b9b5ad;letter-spacing:.08em;font-weight:900}
+.dropStamp{position:relative;z-index:2;font-size:74px;font-weight:950;line-height:.8;letter-spacing:-5px}
+.dropStamp span{color:var(--lime)}
+.dropLines{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent 0 34px,rgba(255,255,255,.05) 35px,transparent 36px);transform:skewX(-12deg) scale(1.2)}
+.dropCopy{padding:28px;display:flex;flex-direction:column;justify-content:space-between}
+.dropCopy h2{font-size:clamp(34px,5vw,58px);letter-spacing:-2.8px;line-height:.96;margin:11px 0 9px}
+.dropCopy p{font-size:13px;line-height:1.8;color:var(--muted);max-width:560px}
+.dropBottom{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-top:24px;padding-top:17px;border-top:1px solid var(--line)}
+.dropBottom strong{font-size:25px}
+.collectionMiniGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:9px}
+.collectionMini{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px;min-height:118px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .22s ease,box-shadow .22s ease}
+.collectionMini:hover{transform:translateY(-4px);box-shadow:0 18px 34px rgba(18,14,10,.08)}
+.collectionMini span{font-size:9px;color:#9b958c}.collectionMini strong{font-size:15px}.collectionMini small{font-size:9px;color:var(--muted)}
+.collectionTeaser .head{align-items:center}.collectionTeaser .head .tag{font-weight:900}
+.collectionLargeGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.collectionLarge{position:relative;min-height:285px;border-radius:24px;background:#fff;border:1px solid var(--line);padding:24px;display:flex;flex-direction:column;justify-content:space-between;overflow:hidden;transition:transform .24s ease,box-shadow .24s ease}
+.collectionLarge:after{content:"";position:absolute;width:240px;height:240px;left:-90px;bottom:-125px;border-radius:50%;background:var(--lime);filter:blur(35px);opacity:.14}
+.collectionLarge:hover{transform:translateY(-4px);box-shadow:0 22px 44px rgba(18,14,10,.09)}
+.collectionLarge.dark{background:#0b0b0b;color:#fff;border-color:#0b0b0b}.collectionLarge.limeBg{background:var(--lime)}.collectionLarge.pinkBg{background:var(--pink)}
+.collectionLarge.wide{grid-column:1 / -1;min-height:220px}
+.collectionNo{font-size:9px;opacity:.6;font-weight:900}
+.collectionLarge h2{font-size:clamp(34px,5vw,64px);letter-spacing:-3px;margin:8px 0}
+.collectionLarge p{font-size:12px;line-height:1.8;max-width:520px;color:var(--muted);margin:0}.collectionLarge.dark p{color:#c6c1b9}
+.collectionLarge strong{font-size:10px;align-self:flex-start}
+@media(max-width:900px){.featuredDrop{grid-template-columns:1fr}.collectionMiniGrid{grid-template-columns:repeat(3,1fr)}.collectionLargeGrid{grid-template-columns:1fr}.collectionLarge.wide{grid-column:auto}}
+@media(max-width:620px){.featuredDrop{border-radius:19px}.dropVisual{min-height:220px;padding:18px}.dropStamp{font-size:60px}.dropCopy{padding:21px}.dropCopy h2{font-size:38px}.dropBottom{align-items:flex-start;flex-direction:column}.collectionMiniGrid{grid-template-columns:1fr 1fr}.collectionMini{min-height:104px;padding:11px}.collectionMini strong{font-size:13px}.collectionLarge{min-height:245px;border-radius:19px;padding:19px}.collectionLarge.wide{min-height:210px}}

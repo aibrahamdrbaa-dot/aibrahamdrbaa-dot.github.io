@@ -194,6 +194,21 @@
 
   const findProduct = (id) => productCatalog.find((product) => product.id === id);
 
+  const featuredDropId = "capcut-master";
+
+  const setupFeaturedDrop = () => {
+    document.querySelectorAll("[data-featured-drop]").forEach((root) => {
+      const product = findProduct(featuredDropId);
+      if (!product) return;
+      root.querySelector("[data-drop-title]").textContent = product.name;
+      root.querySelector("[data-drop-summary]").textContent = product.summary;
+      root.querySelector("[data-drop-price]").textContent = product.price;
+      root.querySelector("[data-drop-category]").textContent = product.category;
+      root.querySelector("[data-drop-link]").href = "product.html?item=" + encodeURIComponent(product.id);
+      root.querySelector("[data-drop-link]").textContent = "شوف الـ Drop ↗";
+    });
+  };
+
   const makeOrderUrl = (product) => {
     const message = "مرحباً، أريد تفاصيل وطلب: " + product.name + ".";
     return "https://t.me/aabrahamdrbaa?text=" + encodeURIComponent(message);
@@ -292,5 +307,6 @@
 
   setupSmartProductLinks();
   setupProductPage();
+  setupFeaturedDrop();
 
 })();
