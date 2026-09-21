@@ -1,0 +1,13 @@
+# Local secrets / credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Local/editor noise
+.DS_Store
+.vscode/
+.idea/

@@ -128,3 +128,7 @@ body.fx-pointer::after{content:"";position:fixed;inset:0;z-index:0;pointer-event
   .fx-cursor{display:none}
   .fx-reveal{opacity:1!important;transform:none!important}
 }
+
+
+/* Security/CSP cleanup */
+.inlineBannerBtn{display:inline-block;margin-top:14px}
