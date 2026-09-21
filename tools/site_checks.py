@@ -11,6 +11,13 @@ ERRORS: list[str] = []
 
 
 class Parser(HTMLParser):
+    def __init__(self) -> None:
+        super().__init__()
+        self.attrs_by_tag: list[tuple[str, dict[str, str]]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        self.attrs_by_tag.append((tag.lower(), {k.lower(): (v or "") for k, v in attrs}))
+
     def error(self, message: str) -> None:
         ERRORS.append(f"HTML parser error: {message}")
 
@@ -33,7 +40,6 @@ def local_path(raw: str) -> str | None:
 
 for path in HTML_FILES:
     text = path.read_text(encoding="utf-8")
-
     parser = Parser()
     parser.feed(text)
     parser.close()
@@ -55,36 +61,36 @@ for path in HTML_FILES:
         if bit not in text:
             fail(f"{path.name}: CSP missing {bit}")
 
-    if re.search(r'<[A-Za-z][^>]*sstyles*=', text, re.IGNORECASE):
-        fail(f"{path.name}: inline style remains; CSP forbids style attributes")
-    if re.search(r'on(?:abort|blur|change|click|error|focus|input|load|mouseover|submit)s*=', text, re.IGNORECASE):
-        fail(f"{path.name}: inline event handler found")
-    if "javascript:" in text.lower():
+    lower = text.lower()
+    if " style=" in lower:
+        fail(f"{path.name}: inline style attribute remains")
+    for event_name in ("onclick", "onload", "onsubmit", "onerror", "onfocus", "onblur", "onchange", "oninput", "onmouseover"):
+        if event_name in lower:
+            fail(f"{path.name}: possible inline event handler found: {event_name}")
+    if "javascript:" in lower:
         fail(f"{path.name}: javascript: URL found")
 
-    for tag in re.findall(r"<a[^>]*>", text, re.IGNORECASE):
-        if re.search(r"""targets*=s*["_']_blank["_']""", tag, re.IGNORECASE):
-            rel = re.search(r"""rels*=s*["']([^"']+)["']""", tag, re.IGNORECASE)
-            rel_tokens = set(rel.group(1).lower().split() if rel else [])
+    for tag, attrs in parser.attrs_by_tag:
+        if tag == "a" and attrs.get("target", "").lower() == "_blank":
+            rel_tokens = set(attrs.get("rel", "").lower().split())
             if "noopener" not in rel_tokens or "noreferrer" not in rel_tokens:
                 fail(f"{path.name}: target=_blank without noopener+noreferrer")
 
-    refs = re.findall(r"""(?:href|src)s*=s*["']([^"']+)["']""", text, re.IGNORECASE)
-    for ref in refs:
-        lp = local_path(ref)
-        if lp is None:
-            continue
-        candidate = ROOT / lp
-        if not candidate.exists():
-            fail(f"{path.name}: missing local asset/link: {ref}")
+        for key in ("src", "href"):
+            ref = attrs.get(key)
+            if not ref:
+                continue
+            lp = local_path(ref)
+            if lp is not None and not (ROOT / lp).exists():
+                fail(f"{path.name}: missing local asset/link: {ref}")
 
 SECRET_PATTERNS = [
     (re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"), "private key"),
-    (re.compile(r"gh[pousr]_[A-Za-z0-9_]{20,}"), "GitHub token"),
-    (re.compile(r"github_pat_[A-Za-z0-9_]{20,}"), "GitHub fine-grained token"),
-    (re.compile(r"AKIA[0-9A-Z]{16}"), "AWS access key"),
-    (re.compile(r"AIza[0-9A-Za-z_-]{30,}"), "Google API key"),
-    (re.compile(r"sk-(?:live|test|proj)-[A-Za-z0-9_-]{16,}"), "API secret key"),
+    (re.compile(r"gh[pousr]_[A-Za-z0-9_]{20,}"), "GitHub token"),
+    (re.compile(r"github_pat_[A-Za-z0-9_]{20,}"), "GitHub fine-grained token"),
+    (re.compile(r"AKIA[0-9A-Z]{16}"), "AWS access key"),
+    (re.compile(r"AIza[0-9A-Za-z_-]{30,}"), "Google API key"),
+    (re.compile(r"sk-(?:live|test|proj)-[A-Za-z0-9_-]{16,}"), "API secret key"),
 ]
 
 for path in ROOT.rglob("*"):
@@ -123,7 +129,7 @@ for required in (
         fail(f"_headers: missing {required}")
 
 if not ERRORS:
-    print(f"PASS: {len(HTML_FILES)} HTML pages, CSP/header checks, link checks, secret-pattern checks, and JS sink checks")
+    print(f"PASS: {len(HTML_FILES)} HTML pages, CSP/header checks, DOM link checks, secret-pattern checks, and JS sink checks")
     sys.exit(0)
 
 print("\n".join(f"FAIL: {e}" for e in ERRORS))
