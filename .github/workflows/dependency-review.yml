@@ -3,6 +3,21 @@ name: Dependency Review
 on:
   pull_request:
     branches: ["main"]
+    paths:
+      - "package.json"
+      - "package-lock.json"
+      - "npm-shrinkwrap.json"
+      - "yarn.lock"
+      - "pnpm-lock.yaml"
+      - "bun.lock"
+      - "bun.lockb"
+      - "requirements.txt"
+      - "pyproject.toml"
+      - "poetry.lock"
+      - "go.mod"
+      - "go.sum"
+      - "Cargo.toml"
+      - "Cargo.lock"
 
 permissions:
   contents: read

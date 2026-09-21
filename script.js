@@ -170,4 +170,127 @@
 
   addEventListener("load", ready, { once: true });
   setTimeout(ready, 900);
+
+  const productCatalog = [
+    {id:"font-maniac-pack",name:"Font Maniac Pack",price:"$9",category:"TYPE",theme:"black",summary:"مجموعة فونتات إبداعية.",display:["TYPE","PACK"]},
+    {id:"capcut-master",name:"CapCut Master",price:"$19",category:"CAPCUT",theme:"lime",summary:"كورس عملي خطوة بخطوة.",display:["CAP","CUT"]},
+    {id:"creator-box",name:"Creator Box",price:"$29",category:"CREATOR",theme:"pink",summary:"قوالب + أدوات + موارد.",display:["CREATOR","BOX"]},
+    {id:"ai-creator-kit",name:"AI Creator Kit",price:"$15",category:"AI",theme:"black",summary:"موارد ذكية للمحتوى.",display:["AI","KIT"]},
+    {id:"social-pack",name:"Social Pack",price:"$12",category:"SOCIAL",theme:"lime",summary:"قوالب سوشال.",display:["SOCIAL","SET"]},
+    {id:"video-flow",name:"Video Flow",price:"$17",category:"VIDEO",theme:"pink",summary:"موارد للمونتاج.",display:["VIDEO","FLOW"]},
+    {id:"arabic-display-pack",name:"Arabic Display Pack",price:"$9",category:"TYPE",theme:"black",summary:"مجموعة عربية للعناوين.",display:["TYPE","01"]},
+    {id:"modern-sans-pack",name:"Modern Sans Pack",price:"$8",category:"TYPE",theme:"lime",summary:"فونتات إنكليزية نظيفة.",display:["TYPE","02"]},
+    {id:"poster-type-pack",name:"Poster Type Pack",price:"$11",category:"TYPE",theme:"pink",summary:"ستايل جريء للبوسترات.",display:["TYPE","03"]},
+    {id:"capcut-editing-pack",name:"CapCut Editing Pack",price:"$14",category:"CAPCUT",theme:"black",summary:"حزمة موارد للمونتاج.",display:["EDIT","PRO"]},
+    {id:"reels-template-set",name:"Reels Template Set",price:"$12",category:"CAPCUT",theme:"pink",summary:"قوالب للسوشال.",display:["REEL","SET"]},
+    {id:"ai-for-creators",name:"AI for Creators",price:"$24",category:"COURSES",theme:"black",summary:"استخدام AI للمحتوى.",display:["AI","101"]},
+    {id:"design-essentials",name:"Design Essentials",price:"$21",category:"COURSES",theme:"pink",summary:"أساسيات التصميم.",display:["DESIGN","101"]},
+    {id:"creator-plan",name:"Creator Plan",price:"$25 / mo",category:"TOOLS",theme:"lime",summary:"خطة خدمات للمبدعين.",display:["PRO","PLAN"]},
+    {id:"everything-pack",name:"Everything Pack",price:"$39",category:"TOOLS",theme:"pink",summary:"حزمة متنوعة.",display:["ALL","IN"]},
+    {id:"starter-pack",name:"Starter Pack",price:"$19",category:"BUNDLES",theme:"black",summary:"فونتات + قوالب + موارد.",display:["START","PACK"]},
+    {id:"creator-pro",name:"Creator Pro",price:"$39",category:"BUNDLES",theme:"lime",summary:"كورسات + أدوات + موارد.",display:["CREATOR","PRO"]},
+    {id:"maniac-max",name:"Maniac Max",price:"$59",category:"BUNDLES",theme:"pink",summary:"الحزمة الشاملة.",display:["MANIAC","MAX"]}
+  ];
+
+  const findProduct = (id) => productCatalog.find((product) => product.id === id);
+
+  const makeOrderUrl = (product) => {
+    const message = "مرحباً، أريد تفاصيل وطلب: " + product.name + ".";
+    return "https://t.me/aabrahamdrbaa?text=" + encodeURIComponent(message);
+  };
+
+  const setupSmartProductLinks = () => {
+    document.querySelectorAll(".card .buy").forEach((link) => {
+      const card = link.closest(".card");
+      const title = card?.querySelector("h3")?.textContent.trim();
+      const product = productCatalog.find((item) => item.name === title);
+      if (!product) return;
+      link.href = "product.html?item=" + encodeURIComponent(product.id);
+      link.removeAttribute("target");
+      link.removeAttribute("rel");
+      link.textContent = "شوف التفاصيل ↗";
+    });
+  };
+
+  const setupProductPage = () => {
+    const root = document.querySelector("[data-product-page]");
+    if (!root) return;
+    const id = new URLSearchParams(location.search).get("item");
+    const product = findProduct(id);
+    if (!product) {
+      document.title = "MANIAC — المنتج غير موجود";
+      root.querySelector("[data-product-title]").textContent = "المنتج غير موجود.";
+      root.querySelector("[data-product-summary]").textContent = "المنتج المطلوب غير موجود في الكتالوج الحالي. ارجع للمتجر لمشاهدة المنتجات المتاحة.";
+      root.querySelector("[data-product-order]").setAttribute("href", "shop.html");
+      root.querySelector("[data-product-order]").textContent = "العودة للمتجر ↗";
+      root.querySelector("[data-product-price]").textContent = "—";
+      return;
+    }
+
+    document.title = product.name + " — MANIAC";
+    const description = document.querySelector('meta[name="description"]');
+    if (description) description.setAttribute("content", product.name + " — " + product.summary + " من MANIAC. الطلب عبر Telegram.");
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute("content", product.name + " — MANIAC");
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) ogDescription.setAttribute("content", product.summary + " الطلب عبر Telegram.");
+
+    root.querySelector("[data-product-title]").textContent = product.name;
+    root.querySelector("[data-product-summary]").textContent = product.summary;
+    root.querySelector("[data-product-price]").textContent = product.price;
+    root.querySelector("[data-product-category]").textContent = product.category;
+    root.querySelector("[data-product-category-copy]").textContent = product.category;
+    root.querySelector("[data-product-fact-category]").textContent = product.category;
+    root.querySelector("[data-product-fact-price]").textContent = product.price;
+    root.querySelector("[data-product-about]").textContent = product.summary + " التفاصيل الإضافية وبيانات الوصول يرسلها الفريق عبر Telegram عند الطلب.";
+    root.querySelector("[data-product-visual-copy]").textContent = "منتج من قسم " + product.category + " في متجر MANIAC.";
+
+    const theme = root.querySelector("[data-product-theme]");
+    theme.classList.remove("theme-lime","theme-pink");
+    if (product.theme === "lime") theme.classList.add("theme-lime");
+    if (product.theme === "pink") theme.classList.add("theme-pink");
+
+    const mark = root.querySelector("[data-product-mark]");
+    mark.replaceChildren();
+    product.display.forEach((line) => {
+      const span = document.createElement("span");
+      span.textContent = line;
+      mark.appendChild(span);
+    });
+
+    const order = root.querySelector("[data-product-order]");
+    order.href = makeOrderUrl(product);
+
+    const related = root.querySelector("[data-related-products]");
+    const sameCategory = productCatalog.filter((item) => item.id !== product.id && item.category === product.category).slice(0,3);
+    const fallback = productCatalog.filter((item) => item.id !== product.id && item.category !== product.category).slice(0,3);
+    const picks = sameCategory.length ? sameCategory : fallback;
+    related.replaceChildren();
+    picks.forEach((item) => {
+      const card = document.createElement("article");
+      card.className = "relatedCard";
+      const top = document.createElement("div");
+      top.className = "relatedTop";
+      const name = document.createElement("span");
+      name.className = "relatedName";
+      name.textContent = item.name;
+      const price = document.createElement("span");
+      price.className = "relatedPrice";
+      price.textContent = item.price;
+      top.append(name, price);
+      const desc = document.createElement("p");
+      desc.className = "relatedDesc";
+      desc.textContent = item.summary;
+      const link = document.createElement("a");
+      link.className = "relatedLink";
+      link.href = "product.html?item=" + encodeURIComponent(item.id);
+      link.textContent = "التفاصيل ↗";
+      card.append(top, desc, link);
+      related.appendChild(card);
+    });
+  };
+
+  setupSmartProductLinks();
+  setupProductPage();
+
 })();
