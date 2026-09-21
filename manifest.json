@@ -1,0 +1,15 @@
+{
+  "id": "/",
+  "name": "MANIAC",
+  "short_name": "MANIAC",
+  "description": "MANIAC — منتجات رقمية للمبدعين.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f6f3ed",
+  "theme_color": "#0b0b0b",
+  "icons": [
+    {"src": "/favicon.ico", "sizes": "32x32", "type": "image/x-icon"},
+    {"src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml"}
+  ]
+}
