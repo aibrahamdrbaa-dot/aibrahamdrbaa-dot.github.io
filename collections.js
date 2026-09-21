@@ -11,24 +11,24 @@
   ];
 
   const productCollections = {
-    "Font Maniac Pack": "TYPE",
-    "CapCut Master": "CAPCUT",
-    "Creator Box": "CREATOR",
-    "AI Creator Kit": "AI",
-    "Social Pack": "SOCIAL",
-    "Video Flow": "VIDEO",
-    "Arabic Display Pack": "TYPE",
-    "Modern Sans Pack": "TYPE",
-    "Poster Type Pack": "TYPE",
-    "CapCut Editing Pack": "CAPCUT",
-    "Reels Template Set": "CAPCUT",
-    "AI for Creators": "COURSES",
-    "Design Essentials": "COURSES",
-    "Creator Plan": "TOOLS",
-    "Everything Pack": "TOOLS",
-    "Starter Pack": "BUNDLES",
-    "Creator Pro": "BUNDLES",
-    "Maniac Max": "BUNDLES"
+    "Font Maniac Pack": ["designers", "creators"],
+    "CapCut Master": ["editors", "creators"],
+    "Creator Box": ["creators"],
+    "AI Creator Kit": ["ai", "creators"],
+    "Social Pack": ["designers", "creators"],
+    "Video Flow": ["editors", "creators"],
+    "Arabic Display Pack": ["designers"],
+    "Modern Sans Pack": ["designers"],
+    "Poster Type Pack": ["designers"],
+    "CapCut Editing Pack": ["editors", "creators"],
+    "Reels Template Set": ["editors", "creators"],
+    "AI for Creators": ["ai", "creators"],
+    "Design Essentials": ["designers", "creators"],
+    "Creator Plan": ["creators"],
+    "Everything Pack": ["creators"],
+    "Starter Pack": ["bundles", "creators"],
+    "Creator Pro": ["bundles", "creators"],
+    "Maniac Max": ["bundles", "creators"]
   };
 
   const getCurrentCollection = () => {
@@ -155,9 +155,9 @@
 
     cards.forEach((card) => {
       const title = card.querySelector("h3")?.textContent.trim() || "";
-      const category = productCollections[title] || "";
+      const memberships = productCollections[title] || [];
       const collection = collections.find((item) => item.id === active);
-      const match = active === "all" || Boolean(collection?.match?.includes(category));
+      const match = active === "all" || memberships.includes(active);
       card.classList.toggle("is-filtered-out", !match);
       if (match) visible += 1;
     });
