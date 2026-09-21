@@ -93,3 +93,38 @@ html,body{overflow-x:clip}
 @media (max-width:620px){
   .visual.photo .art{font-size:30px}
 }
+
+/* MANIAC FX — 2026 interaction layer */
+.js .fx-reveal{opacity:0;transform:translate3d(0,26px,0) scale(.985);transition:opacity .72s cubic-bezier(.2,.7,.2,1),transform .72s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--fx-i,0) * 55ms)}
+.js .fx-reveal.is-visible{opacity:1;transform:none}
+.fx-progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:9999;pointer-events:none;background:rgba(11,11,11,.08)}
+.fx-progress span{display:block;width:100%;height:100%;background:linear-gradient(90deg,var(--lime),var(--pink));transform:scaleX(0);transform-origin:left center;box-shadow:0 0 14px rgba(199,255,42,.28)}
+.fx-veil{position:fixed;inset:0;z-index:9998;display:grid;place-items:center;background:var(--paper);transition:opacity .62s cubic-bezier(.2,.75,.2,1),visibility .62s;pointer-events:none}
+.fx-veil-mark{font-weight:950;font-size:clamp(70px,14vw,150px);letter-spacing:-.08em;line-height:.8;color:var(--ink);text-shadow:10px 10px 0 rgba(199,255,42,.72);animation:fxMark .75s cubic-bezier(.2,.7,.2,1) both}
+.fx-veil-line{position:absolute;left:50%;bottom:25%;width:min(260px,38vw);height:2px;background:rgba(11,11,11,.12);overflow:hidden;transform:translateX(-50%)}
+.fx-veil-line span{display:block;width:100%;height:100%;background:linear-gradient(90deg,var(--pink),var(--lime));transform:translateX(-100%);animation:fxLine 1s cubic-bezier(.7,0,.2,1) .08s both}
+body.is-ready .fx-veil{opacity:0;visibility:hidden}
+body.page-leave .fx-veil{opacity:1;visibility:visible;transition-duration:.32s}
+body.page-leave .fx-veil-mark{animation:fxExit .25s ease both}
+.fx-cursor{position:fixed;left:0;top:0;width:16px;height:16px;border:1px solid rgba(11,11,11,.7);border-radius:50%;z-index:9997;pointer-events:none;mix-blend-mode:multiply;transition:width .2s ease,height .2s ease,margin .2s ease,background .2s ease,border-color .2s ease}
+.fx-cursor.is-hover{width:34px;height:34px;margin:-9px 0 0 -9px;border-color:rgba(199,255,42,.9);background:rgba(199,255,42,.13)}
+body.fx-pointer::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(420px circle at var(--spot-x,50%) var(--spot-y,35%),rgba(199,255,42,.09),transparent 68%);mix-blend-mode:multiply}
+.navBtn,.buy,.bannerBtn,.mobileOrder,.kicker,.pill{transform:translate3d(var(--mx,0),var(--my,0),0);transition:transform .18s ease,box-shadow .2s ease}
+.visual.photo img{will-change:transform}
+.visual.photo:hover img{filter:saturate(1.05) contrast(1.06)}
+.card,.category,.panel,.step,.heroSide{will-change:transform}
+.card:hover .visual.photo::after{opacity:.65}
+@keyframes fxMark{from{opacity:0;transform:scale(.72) rotate(-7deg)}to{opacity:1;transform:none}}
+@keyframes fxLine{to{transform:none}}
+@keyframes fxExit{to{opacity:0;transform:translateY(-10px) scale(1.05)}}
+@media (hover:hover) and (pointer:fine){
+  .card .visual,.heroSide,.banner{transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s ease}
+  .card:hover .visual{transform:translateY(-4px) scale(1.01)}
+  .heroSide:hover{transform:translateY(-4px) rotate(.25deg)}
+}
+@media (prefers-reduced-motion:reduce){
+  .fx-veil,.fx-reveal{transition:none!important}
+  .fx-veil-mark,.fx-veil-line span{animation:none!important}
+  .fx-cursor{display:none}
+  .fx-reveal{opacity:1!important;transform:none!important}
+}
