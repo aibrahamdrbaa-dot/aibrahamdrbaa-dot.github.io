@@ -47,3 +47,34 @@ bdi{unicode-bidi:isolate}
   .featureItem b{font-size:8px}
   h1{font-size:clamp(38px,11.3vw,52px);letter-spacing:-2.3px}
 }
+
+/* 2026-09-21 accessibility + interaction polish */
+html{-webkit-text-size-adjust:100%}
+.nav{scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nav::-webkit-scrollbar{display:none}
+
+.skipLink{position:fixed;top:10px;left:10px;z-index:120;background:var(--ink);color:#fff;border:2px solid var(--lime);border-radius:10px;padding:10px 13px;font-size:11px;font-weight:900;transform:translateY(-160%);transition:transform .2s ease}
+.skipLink:focus-visible{transform:translateY(0)}
+a:focus-visible{outline:2px solid var(--lime);outline-offset:3px}
+.banner{position:relative;overflow:hidden}
+
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}
+.step{background:#fff;border:1px solid var(--line);border-radius:19px;padding:18px;display:flex;gap:14px;align-items:flex-start;min-height:128px;box-shadow:0 2px 0 rgba(11,11,11,.015);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.step:hover{transform:translateY(-4px);box-shadow:0 18px 34px rgba(18,14,10,.08);border-color:#cbc4b8}
+.stepNo{flex:0 0 auto;width:40px;height:40px;border-radius:12px;background:var(--lime);color:var(--ink);display:grid;place-items:center;font-size:11px;font-weight:950;font-variant-numeric:tabular-nums}
+.step h3{font-size:15px;margin:1px 0 5px}
+.step p{font-size:10px;line-height:1.8;color:var(--muted);margin:0}
+
+@media(max-width:900px){
+  .steps{grid-template-columns:1fr}
+}
+@media(max-width:620px){
+  .mobileBar a{min-height:44px;display:flex;align-items:center;justify-content:center;padding:8px 6px;font-size:11px}
+  .step{min-height:0;padding:15px}
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto!important}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+  .tickerTrack{animation:none!important}
+  .hero>div:first-child,.heroSide:before{animation:none!important}
+}
